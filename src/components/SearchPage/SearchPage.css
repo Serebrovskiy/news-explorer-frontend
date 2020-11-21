@@ -1,0 +1,110 @@
+.searchPage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  background-image: url(../../images/photo-154.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position-y: -231px;
+  position: relative;
+}
+
+.searchPage::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: #000;
+  opacity: 0.5;
+  transition: 0.5s linear;
+}
+
+.searchPage__title {
+  font-family: Roboto Slab;
+  font-weight: normal;
+  font-size: 60px;
+  line-height: 64px;
+  color: #ffffff;
+  max-width: 606px;
+  margin: 80px 0 0 29%;
+  z-index: 1;
+}
+
+.searchPage__subtitle {
+  font-family: Roboto;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 24px;
+  color: #ffffff;
+  max-width: 545px;
+  margin: 32px 0 0 29%;
+  z-index: 1;
+}
+
+@media screen and (max-width: 1110px) {
+  .searchPage {
+    background-size: 1110px;
+    background-position-y: -161px;
+  }
+  .searchPage__title {
+    margin: 55px 0 0 25%;
+  }
+  .searchPage__subtitle {
+    margin: 24px 0 0 25%;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .searchPage {
+    background-size: 900px;
+    background-position-y: -145px;
+  }
+  .searchPage__title {
+    margin: 38px 0 0 22%;
+    max-width: 385px;
+    font-size: 36px;
+    line-height: 40px;
+  }
+  .searchPage__subtitle {
+    margin: 16px 0 0 22%;
+    max-width: 452px;
+    font-size: 18px;
+    line-height: 24px;
+  }
+}
+
+@media screen and (max-width: 765px) {
+  .searchPage {
+    background-position-x: -127px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .searchPage__title {
+    margin: 38px auto 0;
+    max-width: 334px;
+  }
+  .searchPage__subtitle {
+    margin: 16px auto 0;
+    max-width: 334px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .searchPage {
+    background-size: 820px;
+    background-position-y: -58px;
+    background-position-x: -246px;
+  }
+  .searchPage__title {
+    margin: 30px auto 0;
+    max-width: 288px;
+  }
+  .searchPage__subtitle {
+    margin: 16px auto 0;
+    max-width: 288px;
+  }
+}

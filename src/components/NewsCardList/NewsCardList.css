@@ -1,0 +1,29 @@
+.newsCardList {
+  max-width: 1440px;
+  display: flex;
+  flex-direction: column;
+  background-color: #f5f6f7;
+}
+
+.newsCardList__area {
+  margin: 60px auto 60px;
+  padding: 0 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  max-width: 1248px;
+}
+
+@media screen and (max-width: 900px) {
+  .newsCardList__area {
+    margin: 32px auto 22px;
+    max-width: 700px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .newsCardList__area {
+    margin: 24px auto 15px;
+    max-width: 280px;
+  }
+}
