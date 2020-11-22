@@ -1,0 +1,131 @@
+.navigationMobile {
+  z-index: 2;
+}
+
+.navigationMobile_opened {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 61px;
+  left: 0;
+  z-index: 2;
+}
+
+.navigationMobile__list {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  list-style-type: none;
+  margin: 0;
+  padding-left: 30px;
+  background-color: #1a1b22;
+  width: 100%;
+  padding-bottom: 24px;
+}
+
+.navigationMobile__list :last-child {
+  margin-right: 0px;
+}
+
+.navigationMobile__item {
+  margin: 32px 0 0;
+}
+
+.navigationMobile__button {
+  font-family: Roboto;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 24px;
+  color: #fff;
+  background-color: transparent;
+  border: 1px solid #fff;
+  border-radius: 100px;
+  display: flex;
+  z-index: 1;
+  width: 288px;
+  height: 56px;
+  justify-content: center;
+  align-items: center;
+}
+
+.navigationMobile__button:hover {
+  cursor: pointer;
+}
+.navigationMobile__button:focus {
+  outline: none;
+}
+
+.navigationMobile__link {
+  font-family: Roboto;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 24px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.navigationMobile__link_saved-news {
+  color: #1a1b22;
+}
+
+.navigationMobile__link_active {
+  padding-top: 28px;
+  border-bottom: 3px solid #fff;
+}
+
+.navigationMobile__link_active-saved-news {
+  border-bottom: 3px solid #1a1b22;
+}
+
+.navigationMobile__menu {
+  display: block;
+  border: none;
+  background-color: transparent;
+  background-image: url("../../images/menu.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: 2;
+  width: 16px;
+  height: 16px;
+}
+
+.navigationMobile__menu_saved-news {
+  background-image: url("../../images/menu-black.svg");
+}
+
+.navigationMobile__menu_open {
+  background-image: url("../../images/menu-close.svg");
+}
+
+.navigationMobile__menu:hover {
+  cursor: pointer;
+}
+
+.navigationMobile__menu:focus {
+  outline: none;
+}
+
+@media screen and (max-width: 700px) {
+  .navigationMobile_opened {
+    z-index: 0;
+  }
+  .navigationMobile__menu {
+    margin-right: 60px;
+  }
+}  
+
+@media screen and (max-width: 400px) {
+  .navigationMobile__list {
+    padding-left: 16px;
+  }
+  .navigationMobile__menu {
+    margin-right: 37px;
+  }
+}  
+
+
