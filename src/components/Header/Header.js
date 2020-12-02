@@ -3,7 +3,7 @@ import './Header.css';
 import { Link } from 'react-router-dom';
 import Navigation from '../Navigation/Navigation';
 
-function Header({ onLogin, pathname }) {
+function Header({ onLogin, pathname, loggedIn, currentUser, onSignOut }) {
 
   const [isOpenMenu, setIsOpenMenu] = React.useState(false);
   const [screenWidth, setScreenWidth] = React.useState(window.innerWidth);
@@ -11,7 +11,7 @@ function Header({ onLogin, pathname }) {
 
   //открываем мобильное меню
   function handleMenu() {
-    isOpenMenu ? setIsOpenMenu(false) : setIsOpenMenu(true)
+    isOpenMenu ? setIsOpenMenu(false) : setIsOpenMenu(true);
   }
 
   //отслеживаем размеры экрана для изменения меню
@@ -39,7 +39,6 @@ function Header({ onLogin, pathname }) {
 //закрытие меню щелчком вне формы
   React.useEffect(() => {
     const handleMouseClose = (evt) => {
-      console.log(evt)
       if (evt.target.classList.contains("navigationMobile")) {
         setIsOpenMenu(false);
       }
@@ -57,6 +56,9 @@ function Header({ onLogin, pathname }) {
         isOpenMenu={isOpenMenu}
         onHandleMenu={handleMenu}
         mobileActive={mobileActive}
+        loggedIn={loggedIn}
+        currentUser={currentUser}
+        onSignOut={onSignOut}
       />
     </header>
   );

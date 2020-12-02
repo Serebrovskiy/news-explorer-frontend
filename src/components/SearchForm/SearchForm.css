@@ -4,6 +4,7 @@
   align-items: center;
   margin: 64px 0 80px 29%;
   z-index: 1;
+  position: relative;
 }
 
 .searchForm__input {
@@ -22,7 +23,7 @@
   font-size: 16px;
   line-height: 22px;
   color: #b6bcbf;
-  padding: 20px 0px;
+  padding: auto;
 }
 
 .searchForm__button {
@@ -42,7 +43,7 @@
 
 .searchForm__button:hover {
   cursor: pointer;
-  background-color: #347EFF;
+  background-color: #347eff;
 }
 .searchForm__button:focus {
   outline: none;
@@ -50,6 +51,20 @@
 
 .searchForm__input:focus {
   outline: none;
+  border: 1px solid #347eff;
+  margin-left: -1px;
+}
+
+.searchPage__message-error {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  font-family: Inter;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 18px;
+  text-align: center;
+  color: #ff0000;
 }
 
 @media screen and (max-width: 1100px) {
@@ -70,6 +85,9 @@
     width: 160px;
     height: 58px;
     margin-left: -158px;
+  }
+  .searchPage__message-error {
+    top: 18px;
   }
 }
 

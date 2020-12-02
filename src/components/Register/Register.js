@@ -1,59 +1,34 @@
 import React from 'react';
 import './Register.css';
 import Popup from '../Popup/Popup';
+import ValidationForm from '../../utils/ValidationForm';
 
-function Register({ isOpen, onClose, onChangePopup, onInfoTooltip }) {
+function Register({
+  isOpen,
+  onClose,
+  onChangePopup,
+  onInfoTooltip,
+  onRegister,
+  messageError,
+  messageErrorReset
+}) {
 
-  const [isDisabled, setIsDisabled] = React.useState(true);
-  const [isErrorTextEmail, setIsErrorTextEmail] = React.useState('');
-  const [isErrorTextPassword, setIsErrorTextPassword] = React.useState('');
-  const [isErrorTextName, setIsErrorTextName] = React.useState('');
-  const inputEmailRef = React.useRef("");
-  const inputPasswordRef = React.useRef("");
-  const inputNameRef = React.useRef("");
+  const {
+    values,
+    handleChange,
+    errors,
+    isValid,
+    resetForm,
+  } = ValidationForm();
 
-
-  //десейблим кнопку если все поля невалидны
-  function handleCheckValidity() {
-    inputEmailRef.current.checkValidity() && inputPasswordRef.current.checkValidity() && inputNameRef.current.checkValidity()
-      ?
-      setIsDisabled(false) : setIsDisabled(true);
-
-    handleCheckValidityEmail();
-    handleCheckValidityPassword();
-    handleCheckValidityName();
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    onRegister(values.password, values.email, values.name);
   }
 
-  //показываем ошибку если email невалиден
-  function handleCheckValidityEmail() {
-    inputEmailRef.current.checkValidity()
-      ?
-      setIsErrorTextEmail('')
-      :
-      setIsErrorTextEmail('Введите корректный Email')
-  }
-
-  //показываем ошибку если пароль невалиден
-  function handleCheckValidityPassword() {
-    inputPasswordRef.current.checkValidity()
-      ?
-      setIsErrorTextPassword('')
-      :
-      setIsErrorTextPassword('Введите корректный пароль')
-  }
-
-  //показываем ошибку если имя невалидно
-  function handleCheckValidityName() {
-    inputNameRef.current.checkValidity()
-      ?
-      setIsErrorTextName('')
-      :
-      setIsErrorTextName('Введите корректное имя')
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault();
-  }
+  React.useEffect(() => {
+    resetForm();
+  }, [isOpen]);
 
   return (
     < >
@@ -66,7 +41,9 @@ function Register({ isOpen, onClose, onChangePopup, onInfoTooltip }) {
         title='Регистрация'
         buttonName='Зарегистрироваться'
         linkName='Войти'
-        isDisabled={isDisabled}
+        isDisabled={!isValid}
+        messageError={messageError}
+        messageErrorReset={messageErrorReset}
       >
         <div className="register">
           <p className="register__input-title">Email</p>
@@ -78,10 +55,10 @@ function Register({ isOpen, onClose, onChangePopup, onInfoTooltip }) {
             minLength="3"
             maxLength="30"
             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-            onChange={handleCheckValidity}
-            ref={inputEmailRef}
+            onChange={handleChange}
+            value={values.email || ''}
             required />
-          <span className="register__error-text">{isErrorTextEmail}</span>
+          <span className="register__error-text">{errors.email}</span>
           <p className="register__input-title">Пароль</p>
           <input
             type="password"
@@ -90,10 +67,10 @@ function Register({ isOpen, onClose, onChangePopup, onInfoTooltip }) {
             placeholder="Введите пароль"
             minLength="3"
             maxLength="30"
-            onChange={handleCheckValidity}
-            ref={inputPasswordRef}
+            onChange={handleChange}
+            value={values.password || ''}
             required />
-          <span className="register__error-text">{isErrorTextPassword}</span>
+          <span className="register__error-text">{errors.password}</span>
           <p className="register__input-title">Имя</p>
           <input
             type="text"
@@ -103,10 +80,10 @@ function Register({ isOpen, onClose, onChangePopup, onInfoTooltip }) {
             minLength="3"
             maxLength="30"
             pattern="^[a-zA-Z0-9а-яА-Я\s-]+$"
-            onChange={handleCheckValidity}
-            ref={inputNameRef}
+            onChange={handleChange}
+            value={values.name || ''}
             required />
-          <span className="register__error-text">{isErrorTextName}</span>
+          <span className="register__error-text">{errors.name}</span>
         </div>
       </Popup>
     </ >

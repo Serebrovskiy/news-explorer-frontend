@@ -24,8 +24,8 @@
   position: absolute;
   left: 0;
   top: 0;
-  right: 0;
-  bottom: 0;
+  right: 0px;
+  bottom: 0px;
   background: #000;
   opacity: 0.5;
   transition: 0.5s linear;
@@ -60,6 +60,10 @@
   .header {
     padding: 0 40px;
     background-size: 900px;
+    background-position-y: -83px;
+  }
+  .header__logo {
+    margin-left: 40px;
   }
 }
 
@@ -73,13 +77,15 @@
 
 @media screen and (max-width: 700px) {
   .header {
-    padding: 0 30px;
+    padding: 0 0px;
     max-height: 56px;
     background-position-y: -89px;
     width: 100%;
     position: fixed;
     top: 0;
     left: 0;
+    right: 0;
+    bottom: 0;
   }
   .header__logo {
     font-size: 16px;
@@ -88,12 +94,18 @@
 
 @media screen and (max-width: 400px) {
   .header {
-    padding: 0 15px;
+    width: 100%;
+    padding: 0px 0px;
+    margin: 0;
     background-size: 820px;
     background-position-y: 0px;
     background-position-x: -246px;
   }
   .header__logo {
     font-size: 16px;
+    margin-left: 16px;
   }
+  /* .header_main::before {
+    display: none;
+  } */
 }

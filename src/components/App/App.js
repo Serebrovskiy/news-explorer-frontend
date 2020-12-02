@@ -1,6 +1,6 @@
 import './App.css';
-import React from 'react';
-import { Route, Switch, useLocation } from 'react-router-dom';
+import React, { useCallback } from 'react';
+import { Route, Switch, useLocation, useHistory, Redirect, } from 'react-router-dom';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import Main from '../Main/Main';
@@ -8,25 +8,43 @@ import SavedNews from '../SavedNews/SavedNews';
 import Register from '../Register/Register';
 import Login from '../Login/Login';
 import InfoTooltip from '../InfoTooltip/InfoTooltip';
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
+import * as auth from '../../utils/Auth';
+import * as news from '../../utils/NewsApi';
+import * as mainNews from '../../utils/MainApi';
+import { PLACEHOLDER_IMAGE, SHOW_ARTICLES_ON_PAGE } from '../../utils/config';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 function App() {
-
   const { pathname } = useLocation();
+  const history = useHistory();
 
   const [isOpenPopupLogin, setIsOpenPopupLogin] = React.useState(false);
   const [isOpenPopupRegister, setIsOpenPopupRegister] = React.useState(false);
   const [isOpenPopupInfo, setIsOpenPopupInfo] = React.useState(false);
+  const [currentUser, setCurrentUser] = React.useState({});
+  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [messageError, setMessageError] = React.useState('');
+  const [articles, setArticles] = React.useState(JSON.parse(localStorage.getItem('articles')) || []);
+  const [savedArticles, setSavedArticles] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [isOpenResultNews, setIsOpenResultNews] = React.useState(false);
+  const [showArticlesOnPage, setShowArticlesOnPage] = React.useState(SHOW_ARTICLES_ON_PAGE);
 
+  //попап авторизации
   function handleLoginClick() {
     setIsOpenPopupLogin(true);
     setIsOpenPopupRegister(false);
+    setIsOpenPopupInfo(false);
   }
 
+  //попап регистрации 
   function handleRegisterClick() {
     setIsOpenPopupRegister(true);
     setIsOpenPopupLogin(false);
   }
 
+  //попап с информацией 
   function handleInfoClick() {
     setIsOpenPopupInfo(true);
     setIsOpenPopupRegister(false);
@@ -39,6 +57,177 @@ function App() {
     setIsOpenPopupRegister(false);
     setIsOpenPopupInfo(false);
   }
+
+  //получаем статьи из поиска
+  function handleSearchArticles(request) {
+    setIsLoading(true);
+    news
+      .getNewsArticles(request)
+      .then((res) => {
+        const localStorageArticles = (res.articles.map((item, key) => ({
+          id: key,
+          title: item.title,
+          description: item.description,
+          urlToImage: item.urlToImage ? item.urlToImage : PLACEHOLDER_IMAGE,
+          url: item.url,
+          publishedAt: item.publishedAt,
+          source: item.source.name,
+          keyword: request
+        })));
+
+        setArticles(localStorageArticles);
+        if (localStorage.token) {
+          localStorage.setItem("articles", JSON.stringify(localStorageArticles));
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      })
+  }
+
+  //получаем сохраненные статьи
+  const handleGetSavedArticles = useCallback(() => {
+    {
+      Promise.all([auth.getContent(localStorage.token), mainNews.getArticles(localStorage.token)])
+        .then(res => {
+          setCurrentUser(res[0]);
+          return res[1].filter((elem) => elem.owner === res[0]._id ? elem : null);
+        })
+        .then(res => {
+          setSavedArticles(res.map(item => ({
+            id: item._id,
+            title: item.title,
+            description: item.text,
+            urlToImage: item.image,
+            url: item.link,
+            publishedAt: item.date,
+            source: item.source,
+            keyword: item.keyword
+          })));
+        })
+        .catch((err) => console.error(err));
+    }
+  }, []);
+
+  //сохраняем статью
+  function handleSavedArticles(article) {
+    if (loggedIn) {
+      mainNews
+        .createArticle(
+          article.keyword,
+          article.title,
+          article.description,
+          article.publishedAt,
+          article.source,
+          article.url,
+          article.urlToImage,
+          localStorage.token,
+        )
+        .then((res) => {
+          article = {
+            id: res._id,
+            title: res.title,
+            description: res.text,
+            urlToImage: res.image,
+            url: res.link,
+            publishedAt: res.date,
+            source: res.source,
+            keyword: res.keyword
+          }
+          setSavedArticles([...savedArticles, article]);
+        })
+        .catch((err) => console.error(err));
+    }
+  }
+
+  //удаляем статью
+  function handleDeleteSavedArticle(article) {
+    mainNews
+      .deleteArticle(article.id, localStorage.token)
+      .then((articleForDelete) => {
+        const newArticles = savedArticles.filter((elem) => elem.id === article.id ? null : articleForDelete
+        );
+        setSavedArticles(newArticles);
+      })
+      .catch((err) => console.error(err));
+  }
+
+  function handleRegister(password, email, name) {
+    auth
+      .register(password, email, name)
+      .then((res) => {
+        if (res.statusCode !== 400) {
+          history.push('/');
+          handleInfoClick();
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        setMessageError(err.message);
+      });
+  }
+
+  function handleLogin(password, email) {
+    return auth
+      .authorize(password, email)
+      .then((data) => {
+        if (!data) {
+          throw new Error('Что-то пошло не так!');
+        }
+        if (data.token) {
+          setLoggedIn(true);
+          localStorage.setItem('token', data.token);
+          tokenCheck();
+        }
+      })
+      .then(() => {
+        history.push('/saved-news')
+      })
+      .catch((err) => {
+        setMessageError(err.message);
+      });
+  }
+
+  function tokenCheck() {
+    if (localStorage.token) {
+      auth.getContent(localStorage.token)
+        .then((res) => {
+          if (res) {
+            setLoggedIn(true);
+            history.push('/saved-news');
+            handleGetSavedArticles();
+            closePopups();
+          } else {
+            localStorage.removeItem('token')
+            setLoggedIn(false)
+            setCurrentUser({})
+          }
+        })
+        .catch(err => console.error(err));
+    }
+  }
+
+  //выходим из аккаунта
+  function onSignOut() {
+    localStorage.removeItem('articles');
+    localStorage.removeItem('token');
+    setLoggedIn(false);
+    setIsOpenResultNews(false);
+    history.push('/');
+  }
+
+  //сбрасываем ошибки попапах
+  const messageErrorReset = useCallback(() => {
+    setMessageError('');
+  }, [isOpenPopupLogin, isOpenPopupRegister]);
+
+  React.useEffect(() => {
+    tokenCheck();
+    setIsOpenResultNews(false);
+  }, []);
 
   //закрытие попапа через Escape
   React.useEffect(() => {
@@ -60,32 +249,72 @@ function App() {
 
   return (
     <div className="page">
-      <Header onLogin={handleLoginClick} pathname={pathname} />
-      <Login
-        isOpen={isOpenPopupLogin}
-        onClose={closePopups}
-        onChangePopup={handleRegisterClick}
-        onInfoTooltip={handleInfoClick}
-      />
-      <Register
-        isOpen={isOpenPopupRegister}
-        onClose={closePopups}
-        onChangePopup={handleLoginClick}
-        onInfoTooltip={handleInfoClick}
-      />
-      <InfoTooltip
-        isOpen={isOpenPopupInfo}
-        onClose={closePopups}
-      />
-      <Switch>
-        <Route exact path="/">
-          <Main pathname={pathname} />
-        </Route>
-        <Route path="/saved-news">
-          <SavedNews pathname={pathname} />
-        </Route>
-      </Switch>
-      <Footer />
+      <CurrentUserContext.Provider value={currentUser}>
+        <Header
+          onLogin={handleLoginClick}
+          pathname={pathname}
+          loggedIn={loggedIn}
+          onChangeLoggedIn={setLoggedIn}
+          currentUser={currentUser}
+          onSignOut={onSignOut}
+        />
+        <Login
+          isOpen={isOpenPopupLogin}
+          onClose={closePopups}
+          onChangePopup={handleRegisterClick}
+          onLogin={handleLogin}
+          messageError={messageError}
+          messageErrorReset={messageErrorReset}
+        />
+        <Register
+          isOpen={isOpenPopupRegister}
+          onClose={closePopups}
+          onChangePopup={handleLoginClick}
+          onInfoTooltip={handleInfoClick}
+          onRegister={handleRegister}
+          messageError={messageError}
+          messageErrorReset={messageErrorReset}
+        />
+        <InfoTooltip
+          isOpen={isOpenPopupInfo}
+          onClose={closePopups}
+          onLogin={handleLoginClick}
+        />
+        <Switch>
+          <ProtectedRoute
+            exact path="/saved-news"
+            loggedIn={loggedIn}
+            currentUser={currentUser}
+            pathname={pathname}
+            savedArticleList={savedArticles}
+            onDeleteSavedArticle={handleDeleteSavedArticle}
+            component={SavedNews}
+            onChangePopup={handleLoginClick}
+          />
+          <Route exact path="/">
+            <Main
+              pathname={pathname}
+              loggedIn={loggedIn}
+              onSearchArticles={handleSearchArticles}
+              onSavedArticles={handleSavedArticles}
+              onDeleteSavedArticle={handleDeleteSavedArticle}
+              savedArticleList={savedArticles}
+              articleList={articles}
+              setArticles={setArticles}
+              isOpenResultNews={isOpenResultNews}
+              setIsOpenResultNews={setIsOpenResultNews}
+              showArticlesOnPage={showArticlesOnPage}
+              setShowArticlesOnPage={setShowArticlesOnPage}
+              isLoading={isLoading}
+              onLogin={handleLoginClick}
+            />
+          </Route>
+          <Route>
+            <Redirect to="/" />
+          </Route>
+        </Switch>
+        <Footer />
+      </CurrentUserContext.Provider>
     </div>
   );
 }

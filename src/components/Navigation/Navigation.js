@@ -1,13 +1,22 @@
 import React from 'react';
 import './Navigation.css';
 import { NavLink } from 'react-router-dom';
-// import logout from '../../images/logout.svg';
-// import logoutWhite from '../../images/logout-white.svg';
+import logout from '../../images/logout.svg';
+import logoutWhite from '../../images/logout-white.svg';
 import NavigationMobile from '../NavigationMobile/NavigationMobile';
 
-function Navigation({ onLogin, pathname, isOpenMenu, onHandleMenu, mobileActive }) {
-  return (
+function Navigation({
+  onLogin,
+  pathname,
+  isOpenMenu,
+  onHandleMenu,
+  mobileActive,
+  loggedIn,
+  currentUser,
+  onSignOut
+}) {
 
+  return (
     <>
       {
         mobileActive ?
@@ -16,6 +25,9 @@ function Navigation({ onLogin, pathname, isOpenMenu, onHandleMenu, mobileActive 
             pathname={pathname}
             isOpenMenu={isOpenMenu}
             onHandleMenu={onHandleMenu}
+            onSignOut={onSignOut}
+            loggedIn={loggedIn}
+            currentUser={currentUser}
           />
           :
           <nav className="navigation">
@@ -30,33 +42,38 @@ function Navigation({ onLogin, pathname, isOpenMenu, onHandleMenu, mobileActive 
                   Главная
           </NavLink>
               </li>
-              <li className="navigation__item">
-                <NavLink
-                  to="/saved-news"
-                  className={`navigation__link ${pathname === "/saved-news" && "navigation__link_saved-news"}`}
-                  activeClassName="navigation__link_active-saved-news"
-                >
-                  Сохранённые статьи
-          </NavLink>
-              </li>
-          {/* для авторизованного пользователя
-              <li className="navigation__item">
-                  <button 
-                    type="button" 
-                    className="navigation__logout" 
-                    onClick={onLogout}>
-                      Грета &nbsp;
-                      <img src={logoutWhite} alt='logout' />
+              {loggedIn
+                ?
+                <>
+                  <li className="navigation__item">
+                    <NavLink
+                      to="/saved-news"
+                      className={`navigation__link ${pathname === "/saved-news" && "navigation__link_saved-news"}`}
+                      activeClassName="navigation__link_active-saved-news"
+                    >
+                      Сохранённые статьи
+                   </NavLink>
+                  </li>
+                  <li className="navigation__item">
+                    <button
+                      type="button"
+                      className={`navigation__button ${pathname === "/saved-news" && "navigation__button_saved-news"}`}
+                      onClick={onSignOut}>
+                      {currentUser.name} &nbsp;
+                      <img src={pathname === "/saved-news" ? logout : logoutWhite} alt='выйти' />
+                    </button>
+                  </li>
+                </>
+                :
+                <li className="navigation__item" >
+                  <button
+                    type="button"
+                    className={`navigation__button ${pathname === "/saved-news" && "navigation__button_saved-news"}`}
+                    onClick={onLogin}>
+                    Авторизоваться
                   </button>
-              </li> */}
-              <li className="navigation__item" >
-                <button
-                  type="button"
-                  className={`navigation__button ${pathname === "/saved-news" && "navigation__button_saved-news"}`}
-                  onClick={onLogin}>
-                  Авторизоваться
-          </button>
-              </li>
+                </li>
+              }
             </ul>
           </nav>
       }

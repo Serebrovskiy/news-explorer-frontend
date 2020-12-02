@@ -1,33 +1,68 @@
 import React from 'react';
 import './Main.css';
 import About from '../About/About';
-import NewsCardListPage from '../NewsCardListPage/NewsCardListPage';
+import NewsCardList from '../NewsCardList/NewsCardList';
 import SearchPage from '../SearchPage/SearchPage';
 import Preloader from '../Preloader/Preloader';
+import NotFound from '../NotFound/NotFound';
+import { SHOW_ARTICLES_ON_PAGE } from '../../utils/config';
 
-function Main({ pathname }) {
+function Main({
+  pathname,
+  onSearchArticles,
+  onSavedArticles,
+  onDeleteSavedArticle,
+  savedArticleList,
+  articleList,
+  isOpenResultNews,
+  setIsOpenResultNews,
+  showArticlesOnPage,
+  setShowArticlesOnPage,
+  isLoading,
+  loggedIn,
+  onLogin,
+}) {
 
-  const [isLaunchPreloader, setIsLaunchPreloader] = React.useState(false);
-  const [isOpenNewsCardListPage, setIsOpenNewsCardListPage] = React.useState(false);
-
-  //запускаем прелоудер
-  function handleLaunchPreloader() {
-    setIsLaunchPreloader(true);
-    setTimeout(() => handleOpenNewsCardListPage(), 3000);
+  //открываем страницу с карточками, максимум 3-мя
+  function handleResultNews() {
+    setIsOpenResultNews(true);
+    setShowArticlesOnPage(SHOW_ARTICLES_ON_PAGE);
   }
 
-  //закрываем прелоудер и открываем страницу с карточками
-  function handleOpenNewsCardListPage() {
-    setIsLaunchPreloader(false);
-    setIsOpenNewsCardListPage(true);
+  //паказать еще
+  function handleShowMoreArticles() {
+    setShowArticlesOnPage(showArticlesOnPage + SHOW_ARTICLES_ON_PAGE);
   }
 
   return (
     < >
       <main className="main">
-        <SearchPage onLaunchPreloader={handleLaunchPreloader} />
-        {isLaunchPreloader && <Preloader />}
-        {isOpenNewsCardListPage && <NewsCardListPage pathname={pathname}/>}
+        <SearchPage
+          onSearchArticles={onSearchArticles}
+          onResultNews={handleResultNews}
+        />
+        {isLoading && <Preloader />}
+        {
+          isOpenResultNews
+          && (
+            articleList.length !== 0
+              ?
+              <NewsCardList
+                pathname={pathname}
+                articleList={articleList}
+                onSavedArticles={onSavedArticles}
+                onDeleteSavedArticle={onDeleteSavedArticle}
+                savedArticleList={savedArticleList}
+                isOpenResultNews={isOpenResultNews}
+                loggedIn={loggedIn}
+                onLogin={onLogin}
+                onShowMoreArticles={handleShowMoreArticles}
+                showArticlesOnPage={showArticlesOnPage}
+              />
+              :
+              <NotFound />
+          )
+        }
         <About />
       </main>
     </ >

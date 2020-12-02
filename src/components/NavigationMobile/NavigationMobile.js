@@ -1,13 +1,22 @@
 import React from 'react';
 import './NavigationMobile.css';
 import { NavLink } from 'react-router-dom';
+import logoutWhite from '../../images/logout-white.svg';
 
-function NavigationMobile({ onLogin, pathname, isOpenMenu, onHandleMenu }) {
+function NavigationMobile({
+  onLogin,
+  pathname,
+  isOpenMenu,
+  onHandleMenu,
+  loggedIn,
+  currentUser,
+  onSignOut
+}) {
   return (
     <>
       {
         //сворачиваем - разворачиваем меню
-        !isOpenMenu  
+        !isOpenMenu
           ?
           <button
             type="button"
@@ -37,14 +46,29 @@ function NavigationMobile({ onLogin, pathname, isOpenMenu, onHandleMenu }) {
                     Сохранённые статьи
                   </NavLink>
                 </li>
-                <li className="navigationMobile__item" >
-                  <button
-                    type="button"
-                    className={`navigationMobile__button`}
-                    onClick={onLogin}>
-                    Авторизоваться
-                  </button>
-                </li>
+                {loggedIn
+                  ?
+                  <li className="navigationMobile__item" >
+                    <button
+                      type="button"
+                      className={`navigationMobile__button`}
+                      onClick={onSignOut}
+                    >
+                      {currentUser.name ? currentUser.name : 'Выйти'}
+                      &nbsp;<img src={logoutWhite} alt='Выйти' />
+                    </button>
+                  </li>
+                  :
+                  <li className="navigationMobile__item" >
+                    <button
+                      type="button"
+                      className={`navigationMobile__button`}
+                      onClick={onLogin}
+                    >
+                      Авторизоваться
+                </button>
+                  </li>
+                }
               </ul>
             </nav>
           </>
