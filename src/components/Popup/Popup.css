@@ -12,6 +12,7 @@
   opacity: 0;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 2;
+  transition: 0.5s ease;
 }
 
 .popup_opened {
@@ -62,7 +63,7 @@
   background-color: #2f71e5;
   border-radius: 100px;
   border: none;
-  margin: 23px 35px 0;
+  margin: 7px 35px 0;
 
   font-family: Roboto;
   font-weight: 500;
@@ -115,6 +116,22 @@
   outline: none;
 }
 
+.popup__messageError {
+  font-family: Inter;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 15px;
+  text-align: center;
+  color: #ff0000;
+}
+
+.popup__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 5px 0 0;
+}
+
 @media screen and (max-width: 400px) {
   .popup {
     justify-content: flex-start;
@@ -135,9 +152,12 @@
   }
   .popup__button {
     width: 288px;
-    margin: 23px 16px 0;
+    margin: 7px 16px 0;
   }
   .popup__text {
     margin: 16px auto 100%;
+  }
+  .popup__messageError {
+    margin: 20px 74px;
   }
 }

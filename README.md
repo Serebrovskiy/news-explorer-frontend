@@ -4,9 +4,9 @@
 
 # News Explorer Frontend
 
-#### Домен приложения: https://news.students.nomoreparties.space
-#### REST API: https://api.news.students.nomoreparties.space
-#### Публичный IP: 178.154.235.54
+#### Домен приложения: https://dipl.students.nomoreparties.space
+#### REST API: https://dipl.news.students.nomoreparties.space
+#### Публичный IP: 178.154.234.75
 #### Репозиторий Бэкенда: https://github.com/Serebrovskiy/news-explorer-api
 
 ---

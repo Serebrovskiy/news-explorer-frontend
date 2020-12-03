@@ -39,6 +39,10 @@
   border: 1px solid #d1d2d6;
 }
 
+.navigation__button_saved-news:hover {
+  border: 1px solid #1A1B22;
+}
+
 .navigation__button:hover {
   cursor: pointer;
 }

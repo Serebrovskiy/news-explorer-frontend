@@ -1,49 +1,33 @@
 import React from 'react';
 import './Login.css';
 import Popup from '../Popup/Popup';
+import ValidationForm from '../../utils/ValidationForm';
 
-function Login({ isOpen, onClose, onChangePopup, onInfoTooltip }) {
+function Login({
+  isOpen,
+  onClose,
+  onChangePopup,
+  onLogin,
+  messageError,
+  messageErrorReset
+}) {
 
-  const [isDisabled, setIsDisabled] = React.useState(true);
-  const [isErrorTextEmail, setIsErrorTextEmail] = React.useState('');
-  const [isErrorTextPassword, setIsErrorTextPassword] = React.useState('');
-  const inputEmailRef = React.useRef("");
-  const inputPasswordRef = React.useRef("");
+  const {
+    values,
+    handleChange,
+    errors,
+    isValid,
+    resetForm,
+  } = ValidationForm();
 
-
-  //десейблим кнопку если все поля невалидны
-  function handleCheckValidity() {
-    inputEmailRef.current.checkValidity() && inputPasswordRef.current.checkValidity()
-      ?
-      setIsDisabled(false)
-      :
-      setIsDisabled(true)
-
-    handleCheckValidityEmail();
-    handleCheckValidityPassword();
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    onLogin(values.password, values.email);
   }
 
-  //показываем ошибку если email невалиден
-  function handleCheckValidityEmail() {
-    inputEmailRef.current.checkValidity()
-      ?
-      setIsErrorTextEmail('')
-      :
-      setIsErrorTextEmail('Введите корректный Email')
-  }
-
-  //показываем ошибку если пароль невалиден
-  function handleCheckValidityPassword() {
-    inputPasswordRef.current.checkValidity()
-      ?
-      setIsErrorTextPassword('')
-      :
-      setIsErrorTextPassword('Введите корректный пароль')
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault();
-  }
+  React.useEffect(() => {
+    resetForm();
+  }, [isOpen]);
 
   return (
     < >
@@ -52,10 +36,11 @@ function Login({ isOpen, onClose, onChangePopup, onInfoTooltip }) {
         onClose={onClose}
         onChangePopup={onChangePopup}
         onSubmit={handleSubmit}
-        onInfoTooltip={onInfoTooltip}
         title='Вход' buttonName='Войти'
         linkName='Зарегистрироваться'
-        isDisabled={isDisabled}
+        isDisabled={!isValid}
+        messageError={messageError}
+        messageErrorReset={messageErrorReset}
       >
         <div className="login">
           <p className="login__input-title">Email</p>
@@ -67,10 +52,11 @@ function Login({ isOpen, onClose, onChangePopup, onInfoTooltip }) {
             minLength="3"
             maxLength="30"
             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-            onChange={handleCheckValidity}
-            ref={inputEmailRef}
-            required />
-          <span className="login__error-text">{isErrorTextEmail}</span>
+            onChange={handleChange}
+            value={values.email || ''}
+            required
+          />
+          <span className="login__error-text">{errors.email}</span>
           <p className="login__input-title">Пароль</p>
           <input
             type="password"
@@ -79,10 +65,11 @@ function Login({ isOpen, onClose, onChangePopup, onInfoTooltip }) {
             placeholder="Введите пароль"
             minLength="3"
             maxLength="30"
-            onChange={handleCheckValidity}
-            ref={inputPasswordRef}
-            required />
-          <span className="login__error-text">{isErrorTextPassword}</span>
+            onChange={handleChange}
+            value={values.password || ''}
+            required
+          />
+          <span className="login__error-text">{errors.password}</span>
         </div>
       </Popup>
     </ >

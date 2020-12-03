@@ -1,6 +1,8 @@
 {
   "name": "news-explorer-frontend",
   "version": "0.1.0",
+  "description": "Interactive news search application",
+  "author": "Aleksandr Serebrovskiy",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.5",
@@ -19,7 +21,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "npm run build && scp -r ./build* news-explorer@178.154.235.54:/home/news-explorer/news-explorer-frontend/build"
+    "deploy": "npm run build && scp -r ./build* diplom@178.154.234.75:/home/diplom/news-explorer-frontend/build"
   },
   "eslintConfig": {
     "extends": [
