@@ -13,7 +13,7 @@ import * as auth from '../../utils/Auth';
 import * as news from '../../utils/NewsApi';
 import * as mainNews from '../../utils/MainApi';
 import { PLACEHOLDER_IMAGE, SHOW_ARTICLES_ON_PAGE } from '../../utils/config';
-import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import CurrentUserContext from '../../contexts/CurrentUserContext';
 
 function App() {
   const { pathname } = useLocation();
@@ -76,9 +76,7 @@ function App() {
         })));
 
         setArticles(localStorageArticles);
-        if (localStorage.token) {
-          localStorage.setItem("articles", JSON.stringify(localStorageArticles));
-        }
+        localStorage.setItem("articles", JSON.stringify(localStorageArticles));
       })
       .catch((err) => {
         console.error(err);
@@ -212,10 +210,10 @@ function App() {
 
   //выходим из аккаунта
   function onSignOut() {
-    localStorage.removeItem('articles');
+    // localStorage.removeItem('articles');
     localStorage.removeItem('token');
     setLoggedIn(false);
-    setIsOpenResultNews(false);
+    // setIsOpenResultNews(false);
     history.push('/');
   }
 
@@ -226,7 +224,11 @@ function App() {
 
   React.useEffect(() => {
     tokenCheck();
-    setIsOpenResultNews(false);
+    if (localStorage.articles) {
+      setIsOpenResultNews(true);
+    } else {
+      setIsOpenResultNews(false);
+    }
   }, []);
 
   //закрытие попапа через Escape

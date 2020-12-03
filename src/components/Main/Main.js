@@ -34,6 +34,12 @@ function Main({
     setShowArticlesOnPage(showArticlesOnPage + SHOW_ARTICLES_ON_PAGE);
   }
 
+  React.useEffect(() => {
+    if (articleList.length === 0) {
+      setIsOpenResultNews(false);
+    }
+  }, [pathname]);
+
   return (
     < >
       <main className="main">
