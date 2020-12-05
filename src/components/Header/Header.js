@@ -14,6 +14,10 @@ function Header({ onLogin, pathname, loggedIn, currentUser, onSignOut }) {
     isOpenMenu ? setIsOpenMenu(false) : setIsOpenMenu(true);
   }
 
+  React.useEffect(() => {
+    setIsOpenMenu(false)
+  }, [pathname]);
+
   //отслеживаем размеры экрана для изменения меню
   React.useEffect(() => {
     function resizeScreen(e) {
@@ -36,7 +40,7 @@ function Header({ onLogin, pathname, loggedIn, currentUser, onSignOut }) {
     }
   }, [screenWidth]);
 
-//закрытие меню щелчком вне формы
+  //закрытие меню щелчком вне формы
   React.useEffect(() => {
     const handleMouseClose = (evt) => {
       if (evt.target.classList.contains("navigationMobile")) {
