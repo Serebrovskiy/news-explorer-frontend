@@ -141,8 +141,8 @@
     margin-top: 56px;
   }
   .popup__button-close {
-    top: -41px;
-    right: 16px;
+    top: -40px;
+    right: 10px;
     width: 28px;
     height: 28px;
     background-size: 28px;
@@ -153,6 +153,7 @@
   .popup__button {
     width: 288px;
     margin: 7px 16px 0;
+    align-self: center;
   }
   .popup__text {
     margin: 16px auto 100%;
