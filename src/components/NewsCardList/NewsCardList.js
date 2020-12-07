@@ -12,9 +12,10 @@ function NewsCardList({
   loggedIn,
   onLogin,
   onShowMoreArticles,
-  showArticlesOnPage
+  showArticlesOnPage,
+  onResetResultSearch
 }) {
-  
+
   return (
     <section className="newsCardList">
       {
@@ -39,8 +40,17 @@ function NewsCardList({
           //выводим страницу с карточками из поиска
           isOpenResultNews &&
           <>
-            <h1 className="newsCardList__title">Результаты поиска</h1>
-            <ul className="newsCardList__area">
+            <div className="newsCardList__container">
+              <h1 className="newsCardList__title">Результаты поиска</h1>
+              <button
+                type="button"
+                className="newsCardList__button-reset"
+                onClick={onResetResultSearch}
+              >
+                Сбросить
+              </button>
+            </div>
+            <div className="newsCardList__area">
               {
                 articleList.slice(0, showArticlesOnPage).map(elem =>
                   <NewsCard
@@ -56,7 +66,7 @@ function NewsCardList({
                   />
                 )
               }
-            </ul>
+            </div>
             {
               articleList.length > (showArticlesOnPage)
               &&

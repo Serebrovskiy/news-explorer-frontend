@@ -8,7 +8,13 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+
+  opacity: 0; 
+  transition: 0.7s ease;
+  animation: show 0.7s 1; 
+  animation-fill-mode: forwards; /* элемент остается в конечном состоянии анимации */
 }
+
 
 .newsCard__button {
   position: absolute;
@@ -76,7 +82,6 @@
   display: flex;
   width: 182px;
 }
-
 
 .newsCard__label {
   display: inline-block;
@@ -166,7 +171,7 @@
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   text-decoration: none;
-  min-height: 60px;   /* чтобы держать источник внизу */
+  min-height: 60px;
 }
 
 .newsCard__text {
@@ -180,7 +185,7 @@
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 5;
   text-decoration: none;
-  min-height: 110px;  /* чтобы держать источник внизу */
+  min-height: 110px;
 }
 
 .newsCard__source {
@@ -198,13 +203,6 @@
   text-decoration: none;
   color: #1a1b22;
 }
-
-/* @media screen and (max-width: 1430px) {
-  .newsCard {
-    width: 224px;
-    height: 420px;
-  }
-} */
 
 @media screen and (max-width: 900px) {
   .newsCard {
@@ -255,7 +253,6 @@
     top: 8px;
     right: 56px;
   }
-
   .newsCard__button_remove:hover + .newsCard__tooltip {
     visibility: hidden;
   }
@@ -273,9 +270,6 @@
   .newsCard__image {
     max-height: 196px;
   }
-  /* .newsCard__container {
-    margin: 16px 16px 10px;
-  } */
   .newsCard__button_save {
     top: 16px;
     right: 16px;
@@ -306,5 +300,13 @@
     top: 16px;
     right: 62px;
   }
+}
 
+@keyframes show {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }

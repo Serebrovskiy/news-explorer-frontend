@@ -217,6 +217,12 @@ function App() {
     history.push('/');
   }
 
+  function onResetResultSearch() {
+    setIsOpenResultNews(false);
+    setArticles([]);
+    localStorage.removeItem('articles');
+  }
+
   //сбрасываем ошибки попапах
   const messageErrorReset = useCallback(() => {
     setMessageError('');
@@ -309,6 +315,7 @@ function App() {
               setShowArticlesOnPage={setShowArticlesOnPage}
               isLoading={isLoading}
               onLogin={handleLoginClick}
+              onResetResultSearch={onResetResultSearch}
             />
           </Route>
           <Route>
