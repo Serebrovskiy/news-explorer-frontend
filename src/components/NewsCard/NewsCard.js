@@ -38,7 +38,7 @@ function NewsCard({
   }
 
   return (
-    <li className="newsCard">
+    <div className="newsCard">
       {
 
         loggedIn
@@ -84,7 +84,7 @@ function NewsCard({
         <p className="newsCard__source">{article.source}</p>
       </a>
 
-    </li>
+    </div>
   );
 }
 

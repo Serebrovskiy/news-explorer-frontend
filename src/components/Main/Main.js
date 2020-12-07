@@ -21,6 +21,7 @@ function Main({
   isLoading,
   loggedIn,
   onLogin,
+  onResetResultSearch
 }) {
 
   //открываем страницу с карточками, максимум 3-мя
@@ -64,6 +65,7 @@ function Main({
                 onLogin={onLogin}
                 onShowMoreArticles={handleShowMoreArticles}
                 showArticlesOnPage={showArticlesOnPage}
+                onResetResultSearch={onResetResultSearch}
               />
               :
               <NotFound />

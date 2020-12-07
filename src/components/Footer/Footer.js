@@ -19,7 +19,7 @@ function Footer() {
         </ul>
         <ul className="footer__icon-list">
           <li className="footer__icon-item">
-            <a href="https://github.com" className="footer__column-link" target="_blank" rel="noreferrer">
+            <a href="https://github.com/Serebrovskiy" className="footer__column-link" target="_blank" rel="noreferrer">
               <img className="footer__social-icon" src={gitIcon} alt="GitHub link" />
             </a>
           </li>
