@@ -34,6 +34,15 @@
   color: #1a1b22;
 }
 
+.about__text-link {
+  color: #1a1b22;
+  /* text-decoration: none; */
+}
+
+.about__text-link:hover {
+  color: #2f71e5;
+}
+
 @media screen and (max-width: 1110px) {
   .about__avatar {
     margin: 70px 0 60px 75px;
