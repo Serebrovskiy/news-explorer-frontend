@@ -17,6 +17,8 @@ function NewsCardList({
 }) {
 
   return (
+    // для плавного закрытия блока
+    // <section className={`newsCardList ${(!isOpenResultNews && (pathname !== "/saved-news")) && "newsCardList_hidden"}`}> 
     <section className="newsCardList">
       {
         pathname === "/saved-news"
