@@ -8,18 +8,18 @@ function NewsCardList({
   savedArticleList,
   onSavedArticles,
   onDeleteSavedArticle,
-  isOpenResultNews,
+  // isOpenResultNews,
   loggedIn,
   onLogin,
   onShowMoreArticles,
   showArticlesOnPage,
-  onResetResultSearch
+  onResetResultSearch,
+  hiddenResultSearch
 }) {
 
   return (
     // для плавного закрытия блока
-    // <section className={`newsCardList ${(!isOpenResultNews && (pathname !== "/saved-news")) && "newsCardList_hidden"}`}> 
-    <section className="newsCardList">
+    <section className={`newsCardList ${(hiddenResultSearch && (pathname !== "/saved-news")) && "newsCardList_hidden"}`}>
       {
         pathname === "/saved-news"
           ?
@@ -40,7 +40,6 @@ function NewsCardList({
           </ul>
           :
           //выводим страницу с карточками из поиска
-          isOpenResultNews &&
           <>
             <div className="newsCardList__container">
               <h1 className="newsCardList__title">Результаты поиска</h1>

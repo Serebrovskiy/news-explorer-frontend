@@ -44,6 +44,9 @@
   color: #1a1b22;
   text-decoration: none;
 }
+.footer__nav-link:hover {
+  opacity: 0.8;
+}
 
 .footer__icon-list {
   display: flex;
@@ -58,6 +61,15 @@
 
 .footer__icon-item {
   margin-right: 28px;
+}
+
+.footer__social-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.footer__social-icon:hover {
+  opacity: 0.8;
 }
 
 .footer__icon-link {

@@ -21,12 +21,15 @@ function Main({
   isLoading,
   loggedIn,
   onLogin,
-  onResetResultSearch
+  onResetResultSearch,
+  setHiddenResultSearch,
+  hiddenResultSearch
 }) {
 
   //открываем страницу с карточками, максимум 3-мя
   function handleResultNews() {
     setIsOpenResultNews(true);
+    setHiddenResultSearch(false);
     setShowArticlesOnPage(SHOW_ARTICLES_ON_PAGE);
   }
 
@@ -60,15 +63,15 @@ function Main({
                 onSavedArticles={onSavedArticles}
                 onDeleteSavedArticle={onDeleteSavedArticle}
                 savedArticleList={savedArticleList}
-                isOpenResultNews={isOpenResultNews}
                 loggedIn={loggedIn}
                 onLogin={onLogin}
                 onShowMoreArticles={handleShowMoreArticles}
                 showArticlesOnPage={showArticlesOnPage}
                 onResetResultSearch={onResetResultSearch}
+                hiddenResultSearch={hiddenResultSearch}
               />
               :
-              <NotFound />
+              !isLoading && <NotFound />
           )
         }
         <About />
