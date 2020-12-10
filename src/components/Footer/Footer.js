@@ -2,7 +2,7 @@ import React from 'react';
 import './Footer.css';
 import { NavLink } from 'react-router-dom';
 import gitIcon from '../../images/git-icon.svg';
-import facebookIcon from '../../images/facebook-icon.svg';
+import emailIcon from '../../images/email-icon.svg';
 
 function Footer() {
   return (
@@ -24,8 +24,8 @@ function Footer() {
             </a>
           </li>
           <li className="footer__icon-item">
-            <a href="https://facebook.com" className="footer__column-link" target="_blank" rel="noreferrer">
-              <img className="footer__social-icon" src={facebookIcon} alt="facebook link" />
+            <a href="mailto: aleksandr-web@yandex.ru" className="footer__column-link" target="_blank" rel="noreferrer">
+              <img className="footer__social-icon" src={emailIcon} alt="email link" />
             </a>
           </li>
         </ul>

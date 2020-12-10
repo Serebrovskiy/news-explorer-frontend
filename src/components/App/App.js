@@ -30,6 +30,8 @@ function App() {
   const [isLoading, setIsLoading] = React.useState(false);
   const [isOpenResultNews, setIsOpenResultNews] = React.useState(false);
   const [showArticlesOnPage, setShowArticlesOnPage] = React.useState(SHOW_ARTICLES_ON_PAGE);
+  const [hiddenResultSearch, setHiddenResultSearch] = React.useState(false);
+
 
   //попап авторизации
   function handleLoginClick() {
@@ -208,19 +210,21 @@ function App() {
     }
   }
 
-  //выходим из аккаунта
+  //выходим из аккаунта, результат поиска не закрываем
   function onSignOut() {
-    // localStorage.removeItem('articles');
     localStorage.removeItem('token');
     setLoggedIn(false);
-    // setIsOpenResultNews(false);
     history.push('/');
   }
 
+  //очищаем блок с результатами
   function onResetResultSearch() {
-    setIsOpenResultNews(false);
-    setArticles([]);
-    localStorage.removeItem('articles');
+    setHiddenResultSearch(true)
+    setTimeout(function(){
+      setIsOpenResultNews(false);
+      setArticles([]);
+      localStorage.removeItem('articles');
+    }, 2000);
   }
 
   //сбрасываем ошибки попапах
@@ -316,6 +320,8 @@ function App() {
               isLoading={isLoading}
               onLogin={handleLoginClick}
               onResetResultSearch={onResetResultSearch}
+              setHiddenResultSearch={setHiddenResultSearch}
+              hiddenResultSearch={hiddenResultSearch}
             />
           </Route>
           <Route>
