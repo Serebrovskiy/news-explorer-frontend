@@ -1,5 +1,6 @@
 .navigationMobile {
-  z-index: 2;
+  visibility: hidden;
+  opacity: 0;
 }
 
 .navigationMobile_opened {
@@ -10,9 +11,22 @@
   top: 61px;
   left: 0;
   z-index: 2;
+  visibility: visible;
+  transition: 0.5s linear;
+  display: block;
+  opacity: 1;
 }
 
 .navigationMobile__list {
+  transition: 0.5s linear;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.navigationMobile__list_opened {
+  visibility: visible;
+  opacity: 1;
+
   position: absolute;
   top: 0;
   left: 0;
@@ -92,6 +106,9 @@
   z-index: 2;
   width: 16px;
   height: 16px;
+  position: absolute;
+  top: 23px;
+  right: 10px;
 }
 
 .navigationMobile__menu_saved-news {
