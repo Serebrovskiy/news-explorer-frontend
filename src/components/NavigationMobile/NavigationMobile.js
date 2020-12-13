@@ -13,21 +13,26 @@ function NavigationMobile({
   onSignOut
 }) {
   return (
-    <>
-      {
+    // <>
+    //   {
         //сворачиваем - разворачиваем меню
-        !isOpenMenu
-          ?
-          <button
-            type="button"
-            className={`navigationMobile__menu ${pathname === "/saved-news" && "navigationMobile__menu_saved-news"}`}
-            onClick={onHandleMenu}
-          />
-          :
+        // !isOpenMenu
+        //   ?
+        //   <button
+        //     type="button"
+        //     className={`navigationMobile__menu ${pathname === "/saved-news" && "navigationMobile__menu_saved-news"}`}
+        //     onClick={onHandleMenu}
+        //   />
+        //   :
           <>
-            <button type="button" className="navigationMobile__menu navigationMobile__menu_open" onClick={onHandleMenu} />
-            <nav className="navigationMobile navigationMobile_opened">
-              <ul className="navigationMobile__list">
+            <button type="button" 
+            className={`navigationMobile__menu ${isOpenMenu && "navigationMobile__menu_open"} ${pathname === "/saved-news" && "navigationMobile__menu_saved-news"}`}
+            // className="navigationMobile__menu navigationMobile__menu_open" 
+            onClick={onHandleMenu} />
+
+            <nav className={`navigationMobile ${isOpenMenu && "navigationMobile_opened"}`}>
+
+              <ul className={`navigationMobile__list ${isOpenMenu && "navigationMobile__list_opened"}`}>
                 <li className="navigationMobile__item">
                   <NavLink
                     exact to="/"
@@ -72,8 +77,8 @@ function NavigationMobile({
               </ul>
             </nav>
           </>
-      }
-    </>
+    //   }
+    // </>
   );
 }
 
