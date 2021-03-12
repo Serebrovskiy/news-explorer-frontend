@@ -94,6 +94,7 @@ function App() {
       Promise.all([auth.getContent(localStorage.token), mainNews.getArticles(localStorage.token)])
         .then(res => {
           setCurrentUser(res[0]);
+          console.log(res[1])
           return res[1].filter((elem) => elem.owner === res[0]._id ? elem : null);
         })
         .then(res => {
@@ -220,7 +221,7 @@ function App() {
   //очищаем блок с результатами
   function onResetResultSearch() {
     setHiddenResultSearch(true)
-    setTimeout(function(){
+    setTimeout(function () {
       setIsOpenResultNews(false);
       setArticles([]);
       localStorage.removeItem('articles');

@@ -21,7 +21,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "npm run build && scp -r ./build* diplom@178.154.234.75:/home/diplom/news-explorer-frontend/build"
+    "deploy": "npm run build && scp -r ./build* root@134.0.118.249:/root/news-explorer/news-explorer-frontend/build"
+    
   },
   "eslintConfig": {
     "extends": [

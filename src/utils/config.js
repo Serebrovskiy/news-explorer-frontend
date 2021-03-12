@@ -1,6 +1,8 @@
 export const API_KEY = '701085ec01404ea88b3ae55407e60f9f';
 
-export const BASE_URL_MAIN = 'https://api.dipl.students.nomoreparties.space';
+//export const BASE_URL_MAIN = 'https://api.dipl.students.nomoreparties.space';
+// export const BASE_URL_MAIN = 'http://localhost:3000';
+export const BASE_URL_MAIN = 'https://134-0-118-249.cloudvps.regruhosting.ru';
 export const BASE_URL_NEWS = 'https://newsapi.org/v2/top-headlines';
 export const BASE_URL_PROXY = 'https://nomoreparties.co/news/v2/everything';
 
